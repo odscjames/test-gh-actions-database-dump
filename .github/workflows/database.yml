@@ -18,4 +18,4 @@ jobs:
           - 5432/tcp
     steps:
     - uses: actions/checkout@v2
-    - run: docker run -it --rm postgres:14 pg_dump --help
+    - run: docker run --rm postgres:14 pg_dump --help
