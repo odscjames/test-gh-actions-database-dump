@@ -25,3 +25,9 @@ docker run --rm --network test-database-dump-mysql mysql:8.0 \
 docker run --rm --network test-database-dump-mysql  \
   --mount type=bind,source="$(pwd)"/database,target=/database mysql:8.0 \
   mysqldump -h server -P 3306 -u root -p1234 --result-file=/database/database.sql --no-data test
+
+# Remove dumped lines
+sed -i '/^\-\- Dump completed on/d' database/database.sql
+sed -i '/^\-\- Server version/d' database/database.sql
+sed -i '/^\-\- Host/d' database/database.sql
+sed -i '/^\-\- MySQL dump/d' database/database.sql

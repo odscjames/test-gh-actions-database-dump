@@ -23,4 +23,8 @@ jobs:
     - run: mysql -h 127.0.0.1 -P 3306 -u root -p1234 -e "CREATE DATABASE test"
     - run: mysql -h 127.0.0.1 -P 3306 -u root -p1234 -D test -e "CREATE TABLE foo ( id INTEGER PRIMARY KEY )"
     - run: mysqldump -h 127.0.0.1 -P 3306 -u root -p1234 --result-file=shouldbe.sql --no-data test
+    - run: sed -i '/^\-\- Dump completed on/d' shouldbe.sql
+    - run: sed -i '/^\-\- Server version/d' shouldbe.sql
+    - run: sed -i '/^\-\- Host/d' shouldbe.sql
+    - run: sed -i '/^\-\- MySQL dump/d' shouldbe.sql
     - run: diff database/database.sql shouldbe.sql
