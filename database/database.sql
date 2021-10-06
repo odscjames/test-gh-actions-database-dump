@@ -30,14 +30,6 @@ CREATE TABLE public.foo (
 ALTER TABLE public.foo OWNER TO postgres;
 
 --
--- Data for Name: foo; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.foo (id) FROM stdin;
-\.
-
-
---
 -- Name: foo foo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 

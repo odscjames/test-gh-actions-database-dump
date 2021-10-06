@@ -23,7 +23,7 @@ jobs:
     - run: psql -h localhost -U postgres --no-password -d postgres -c "CREATE TABLE foo ( id INTEGER PRIMARY KEY )"
       env:
         PGPASSWORD: postgres
-    - run: pg_dump -h localhost -U postgres --no-password -f shouldbe.sql postgres
+    - run: pg_dump -h localhost -U postgres --no-password -f shouldbe.sql --schema-only postgres
       env:
         PGPASSWORD: postgres
     - run: sed -i '/^\-\- Dumped by /d' shouldbe.sql
