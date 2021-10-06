@@ -6,7 +6,8 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       postgres:
-        image: postgres:14
+        # 12 is chosen because that matches the version of the client utils we will install
+        image: postgres:12
         env:
           POSTGRES_PASSWORD: postgres
         options: >-
@@ -18,4 +19,6 @@ jobs:
           - 5432:5432/tcp
     steps:
     - uses: actions/checkout@v2
-    - run: docker run --rm postgres:14 pg_dump --help
+    - run: sudo apt-get -y install postgresql-client-12
+    - run: psql --help
+    - run: pg_dump --help
