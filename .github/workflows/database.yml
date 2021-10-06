@@ -1,31 +1,26 @@
-name: Postgres
+name: Mysql
 on: [push, pull_request]
 
 jobs:
-  postgres:
+  mysql:
     runs-on: ubuntu-20.04
     services:
-      postgres:
-        # 12 is chosen because that matches the version of the client utils we will install
-        image: postgres:12
+      mysql:
+        # 8 is chosen because that matches the version of the client utils we will install
+        image: mysql:8.0
         env:
-          POSTGRES_PASSWORD: postgres
+          MYSQL_ROOT_PASSWORD: 1234
+        ports:
+          - 3306:3306/tcp
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "mysqladmin ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 5432:5432/tcp
     steps:
     - uses: actions/checkout@v2
-    - run: sudo apt-get -y install postgresql-client-12
-    - run: psql -h localhost -U postgres --no-password -d postgres -c "CREATE TABLE foo ( id INTEGER PRIMARY KEY )"
-      env:
-        PGPASSWORD: postgres
-    - run: pg_dump -h localhost -U postgres --no-password -f shouldbe.sql --schema-only postgres
-      env:
-        PGPASSWORD: postgres
-    - run: sed -i '/^\-\- Dumped by /d' shouldbe.sql
-    - run: sed -i '/^\-\- Dumped from /d' shouldbe.sql
+    - run: sudo apt-get -y install mysql-client-8.0
+    - run: mysql -h 127.0.0.1 -P 3306 -u root -p1234 -e "CREATE DATABASE test"
+    - run: mysql -h 127.0.0.1 -P 3306 -u root -p1234 -D test -e "CREATE TABLE foo ( id INTEGER PRIMARY KEY )"
+    - run: mysqldump -h 127.0.0.1 -P 3306 -u root -p1234 --result-file=shouldbe.sql --no-data test
     - run: diff database/database.sql shouldbe.sql
