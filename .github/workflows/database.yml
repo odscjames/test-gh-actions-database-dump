@@ -17,5 +17,5 @@ jobs:
         ports:
           - 5432/tcp
     steps:
-    - uses: actions/checkout@v2    
-    - run: docker run hello-world
+    - uses: actions/checkout@v2
+    - run: docker run -it --rm postgres:14 pg_dump --help
