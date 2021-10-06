@@ -19,22 +19,22 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: foo; Type: TABLE; Schema: public; Owner: postgres
+-- Name: bar; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.foo (
+CREATE TABLE public.bar (
     id integer NOT NULL
 );
 
 
-ALTER TABLE public.foo OWNER TO postgres;
+ALTER TABLE public.bar OWNER TO postgres;
 
 --
--- Name: foo foo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: bar bar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.foo
-    ADD CONSTRAINT foo_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.bar
+    ADD CONSTRAINT bar_pkey PRIMARY KEY (id);
 
 
 --
