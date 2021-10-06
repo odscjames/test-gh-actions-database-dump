@@ -20,5 +20,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: sudo apt-get -y install postgresql-client-12
-    - run: psql --help
+    - run: psql -h localhost -U postgres --no-password -d postgres -c "CREATE TABLE foo ( id INTEGER PRIMARY KEY )"
+      env:
+        PGPASSWORD: postgres
     - run: pg_dump --help
