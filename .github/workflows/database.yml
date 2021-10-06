@@ -6,20 +6,24 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       postgres:
-        # 12 is chosen because that matches the version of the client utils we will install
-        image: postgres:12
+        image: mcr.microsoft.com/mssql/server:2019-CU13-ubuntu-20.04
         env:
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          ACCEPT_EULA: Y
+          SA_PASSWORD: 1234abAB
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
         ports:
-          - 5432:5432/tcp
+          - 1433:1433/tcp
     steps:
     - uses: actions/checkout@v2
-    - run: sudo apt-get -y install postgresql-client-12
+    # https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup-tools?view=sql-server-ver15#ubuntu
+    - run: curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+    - run: curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list | sudo tee /etc/apt/sources.list.d/msprod.list
+    - run: sudo apt-get update
+    - run: sudo apt-get -y install mssql-tools unixodbc-dev
     - run: psql -h localhost -U postgres --no-password -d postgres -c "CREATE TABLE foo ( id INTEGER PRIMARY KEY )"
       env:
         PGPASSWORD: postgres
