@@ -21,3 +21,7 @@ docker run --rm -e POSTGRES_PASSWORD=1234 --env PGPASSWORD=1234 --network test-d
 docker run --rm -e POSTGRES_PASSWORD=1234 --env PGPASSWORD=1234 --network test-database-dump \
   --mount type=bind,source="$(pwd)"/database,target=/database   postgres:12 \
   pg_dump -h server -p 5432 -U postgres --no-password -f /database/database.sql postgres
+
+# Remove dumped lines
+sed -i '/^\-\- Dumped by /d' database/database.sql
+sed -i '/^\-\- Dumped from /d' database/database.sql

@@ -26,4 +26,6 @@ jobs:
     - run: pg_dump -h localhost -U postgres --no-password -f shouldbe.sql postgres
       env:
         PGPASSWORD: postgres
+    - run: sed -i '/^\-\- Dumped by /d' shouldbe.sql
+    - run: sed -i '/^\-\- Dumped from /d' shouldbe.sql
     - run: diff database/database.sql shouldbe.sql
